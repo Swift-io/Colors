@@ -35,6 +35,16 @@ struct NewColorInput: View {
   @State var name: String = ""
   @EnvironmentObject var colorViewModel: ColorsViewModel
   
+  var newColor: Color {
+    let redValue = Double(red) ?? 0
+    let greenValue = Double(green) ?? 0
+    let blueValue = Double(blue) ?? 0
+    
+    
+    return Color(red: redValue / 255, green: greenValue / 255, blue: blueValue / 255)
+  }
+
+  
   var body: some View {
     VStack(spacing: 16) {
       HStack(spacing: 16) {
@@ -45,7 +55,7 @@ struct NewColorInput: View {
       
       InputField(name: "Name", placeholder: "Color name", value: $name)
       
-      Button(action: {self.colorViewModel.addColor(red: self.red,green: self.green,blue: self.blue, name: self.name)}) {
+      Button(action: {self.colorViewModel.addColor(color: self.newColor, name: self.name)}) {
           HStack {
             Spacer()
             Text("Add").font(.headline).foregroundColor(.white).padding()
@@ -73,7 +83,7 @@ struct ColorsList: View {
           ForEach(colorsViewModel.palette) { color in
             ColorRow(color: color.value, name: color.name)
           }
-        .onDelete(perform: removeItem)
+          .onDelete(perform: removeItem)
         }
         .navigationBarTitle("Palette")
         VStack {
