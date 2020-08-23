@@ -43,7 +43,13 @@ struct NewColorInput: View {
     
     return Color(red: redValue / 255, green: greenValue / 255, blue: blueValue / 255)
   }
-
+  
+  func resetInputsState() {
+    red = ""
+    green = ""
+    blue = ""
+    name = ""
+  }
   
   var body: some View {
     VStack(spacing: 16) {
@@ -55,13 +61,13 @@ struct NewColorInput: View {
       
       InputField(name: "Name", placeholder: "Color name", value: $name)
       
-      Button(action: {self.colorViewModel.addColor(color: self.newColor, name: self.name)}) {
-          HStack {
-            Spacer()
-            Text("Add").font(.headline).foregroundColor(.white).padding()
-            Spacer()
-          }
-          .background(Color.black)
+      Button(action: {self.colorViewModel.addColor(color: self.newColor, name: self.name); self.resetInputsState()}) {
+        HStack {
+          Spacer()
+          Text("Add").font(.headline).foregroundColor(.white).padding()
+          Spacer()
+        }
+        .background(Color.black)
       }
       .cornerRadius(15)
     }
